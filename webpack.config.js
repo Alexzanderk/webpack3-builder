@@ -52,12 +52,12 @@ module.exports = {
             {
                 test: /\.html$/,
                 use: {
-                  loader: 'html-loader',
-                  options: {
-                    attrs: [':data-src']
-                  }
+                    loader: 'html-loader',
+                    options: {
+                        attrs: [':data-src']
+                    }
                 }
-              },
+            },
             {
                 test: /\.pug$/,
                 use: {
@@ -66,9 +66,26 @@ module.exports = {
                         pretty: true
                     }
                 }
+            },
+            {
+                test: [/\.scss$/, /\.sass$/],
+                use: [{
+                    loader: "style-loader",
+                    options: {
+                        sourceMap: true,
+                        convertToAbsoluteUrls: true
+                    }
+                }, {
+                    loader: "css-loader" // translates CSS into CommonJS
+                }, {
+                    loader: "sass-loader",
+                    options: {
+                        // includePaths: path.resolve("./src/style"),
+                        sourceMap: true
+                    }
+                }]
             }
         ],
-        noParse: /lodash/
     },
 
     plugins: [
