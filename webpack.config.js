@@ -3,6 +3,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
     context: path.resolve(__dirname, "src/js"),
@@ -13,7 +14,7 @@ module.exports = {
 
     output: {
         path: path.resolve(__dirname, 'build'),
-        filename: "build.js",
+        filename: "assets/js/build.js",
     },
 
     devtool: 'cheap-eval-source-map',
@@ -67,23 +68,40 @@ module.exports = {
                     }
                 }
             },
+            // {
+            //     test: [/\.scss$/, /\.sass$/],
+            //     use: [{
+            //         loader: "style-loader",
+            //         options: {
+            //             sourceMap: true,
+            //             convertToAbsoluteUrls: true
+            //         }
+            //     }, {
+            //         loader: "css-loader" // translates CSS into CommonJS
+            //     }, {
+            //         loader: "sass-loader",
+            //         options: {
+            //             // includePaths: path.resolve("./src/style"),
+            //             sourceMap: true
+            //         }
+            //     }]
+            // },
             {
                 test: [/\.scss$/, /\.sass$/],
-                use: [{
-                    loader: "style-loader",
-                    options: {
-                        sourceMap: true,
-                        convertToAbsoluteUrls: true
-                    }
-                }, {
-                    loader: "css-loader" // translates CSS into CommonJS
-                }, {
-                    loader: "sass-loader",
-                    options: {
-                        // includePaths: path.resolve("./src/style"),
-                        sourceMap: true
-                    }
-                }]
+                // include: path.resolve(__dirname, "src/style/"),
+                use: ExtractTextPlugin.extract({
+                    publicPath: '../',
+                    fallback: 'style-loader',
+                    use: ['css-loader', 'sass-loader']
+                })
+            },
+            {
+                test: /\.css$/,
+                // include: path.resolve(__dirname, "src/style"),
+                use: ExtractTextPlugin.extract({
+                    fallback: "style-loader",
+                    use: "css-loader"
+                })
             }
         ],
     },
@@ -94,6 +112,7 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, "src/temlates") + '/index.pug'
         }),
+        new ExtractTextPlugin('assets/css/[name].css'),
         // new webpack.ProvidePlugin({
         //     _: 'lodash'
         // })
