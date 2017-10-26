@@ -1,6 +1,7 @@
 import {num, foo} from './test';
 import {bar} from './testts';
 import _ from 'lodash';
+import style from '../style/main.sass';
 
 
 console.log(num);

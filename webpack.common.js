@@ -4,19 +4,20 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+
 module.exports = {
     context: path.resolve(__dirname, "src/js"),
 
     entry: {
+        vendors: ["lodash"],
         index: "./index.js",
     },
 
     output: {
         path: path.resolve(__dirname, 'build'),
-        filename: "build.js",
+        filename: "assets/js/[name].js",
+        library: 'app'
     },
-
-    devtool: 'cheap-eval-source-map',
 
     resolve: {
         extensions: [".tsx", ".ts", "jsx", ".js"]
@@ -52,12 +53,12 @@ module.exports = {
             {
                 test: /\.html$/,
                 use: {
-                  loader: 'html-loader',
-                  options: {
-                    attrs: [':data-src']
-                  }
+                    loader: 'html-loader',
+                    options: {
+                        attrs: [':data-src']
+                    }
                 }
-              },
+            },
             {
                 test: /\.pug$/,
                 use: {
@@ -66,9 +67,9 @@ module.exports = {
                         pretty: true
                     }
                 }
-            }
+            },
+
         ],
-        noParse: /lodash/
     },
 
     plugins: [
@@ -77,16 +78,13 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, "src/temlates") + '/index.pug'
         }),
+        new webpack.optimize.CommonsChunkPlugin({
+            name: 'vendors',
+            // minChunks: Infinity
+        })
         // new webpack.ProvidePlugin({
         //     _: 'lodash'
         // })
-    ],
-
-    devServer: {
-        contentBase: path.join(__dirname, 'build'),
-        compress: true
-
-    }
-
+    ]
 
 }
