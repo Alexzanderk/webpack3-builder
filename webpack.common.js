@@ -68,7 +68,18 @@ module.exports = {
                     }
                 }
             },
-
+            {
+                test: /\.(png|jpg|svg)$/,
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            name: './assets/images/[name].[ext]',
+                            // publicPath: 'assets/'
+                        }
+                    }
+                ]
+            }
         ],
     },
 

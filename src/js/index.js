@@ -2,7 +2,7 @@ import {num, foo} from './test';
 import {bar} from './testts';
 import _ from 'lodash';
 import style from '../style/main.sass';
-
+// import img from './img';
 
 console.log(num);
 
