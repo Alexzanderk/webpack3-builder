@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 const common = require('./webpack.common');
 
 module.exports = merge(common, {
@@ -30,6 +31,7 @@ module.exports = merge(common, {
     devtool: 'source-map',
 
     plugins: [
+        new CleanWebpackPlugin(['build']),
         new ExtractTextPlugin('assets/css/[name].css'),
         
     ]
